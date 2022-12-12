@@ -1,6 +1,6 @@
 RACK_DIR ?= .
 VERSION_MAJOR := 2
-VERSION := 2.2.0
+VERSION := 2.2.1
 
 FLAGS += -Iinclude -Idep/include
 
@@ -242,6 +242,18 @@ ifdef ARCH_WIN
 	cp libRack.dll.a dist/"$(DIST_SDK_DIR)"/
 endif
 	cd dist && zip -q -9 -r "$(DIST_SDK)" "$(DIST_SDK_DIR)"
+
+
+install: dist
+ifdef ARCH_MAC
+	sudo installer -pkg dist/"$(DIST_NAME)".pkg -target /
+endif
+
+
+uninstall:
+ifdef ARCH_MAC
+	sudo rm -rf /Applications/"$(DIST_BUNDLE)"
+endif
 
 
 # Target not supported for public use

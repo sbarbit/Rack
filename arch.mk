@@ -1,9 +1,16 @@
-MACHINE := $(shell $(CC) -dumpmachine)
+ifdef CROSS_COMPILE
+	MACHINE := $(CROSS_COMPILE)
+else
+	MACHINE ?= $(shell $(CC) -dumpmachine)
+endif
 
 ifneq (,$(findstring x86_64-,$(MACHINE)))
 	ARCH_X64 := 1
 	ARCH_CPU := x64
 else ifneq (,$(findstring arm64-,$(MACHINE)))
+	ARCH_ARM64 := 1
+	ARCH_CPU := arm64
+else ifneq (,$(findstring aarch64-,$(MACHINE)))
 	ARCH_ARM64 := 1
 	ARCH_CPU := arm64
 else
